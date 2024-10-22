@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BSOD Simulation with Rick Roll</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            background-color: #0078D7; /* Windows BSOD blue */
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            visibility: hidden; /* Initially hidden, becomes visible on button click */
+        }
+
+        .sad-face {
+            font-size: 150px;
+            margin-bottom: 20px;
+        }
+
+        .message {
+            font-size: 26px;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .percentage {
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        .details {
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .red-button {
+            background-color: red;
+            color: white;
+            font-size: 24px;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .red-button:hover {
+            background-color: darkred;
+        }
+
+        .rick-roll-button {
+            background-color: #28a745;
+            color: white;
+            font-size: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: none; /* Hidden initially */
+        }
+
+        .rick-roll-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Red Button -->
+    <button class="red-button" id="redButton">Click me!</button>
+
+    <!-- BSOD Simulation -->
+    <div class="container" id="bsodContainer">
+        <div class="sad-face">:(</div>
+        <div class="message">Your PC ran into a problem and needs to restart.<br>We're just collecting some error info, and then we'll restart for you.</div>
+        <div class="percentage" id="percentage">0% complete</div>
+        <div class="details">
+            For more information about this issue and possible fixes, visit our website.<br>
+            If you call a support person, give them this info:<br>
+            Stop code: 0x00000000
+        </div>
+
+        <!-- Rick Roll Button -->
+        <button class="rick-roll-button" id="rickRollButton">Continue</button>
+    </div>
+
+    <script>
+        // Simulate percentage increasing
+        let percent = 0;
+        const percentageElement = document.getElementById('percentage');
+        const rickRollButton = document.getElementById('rickRollButton');
+
+        function updatePercentage() {
+            if (percent < 100) {
+                percent++;
+                percentageElement.innerHTML = percent + "% complete";
+                setTimeout(updatePercentage, 50); // Speed of percentage increment (adjust if needed)
+            } else {
+                // Show the "Continue" button once 100% is reached
+                rickRollButton.style.display = 'block';
+            }
+        }
+
+        // Function to show the BSOD and hide the button
+        function showBSOD() {
+            // Hide the red button
+            document.getElementById('redButton').style.display = 'none';
+
+            // Show the BSOD container
+            document.getElementById('bsodContainer').style.visibility = 'visible';
+
+            // Start percentage simulation after 1 second
+            setTimeout(updatePercentage, 1000);
+
+            // Request fullscreen automatically when the BSOD starts
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            } else if (document.documentElement.mozRequestFullScreen) { /* Firefox */
+                document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+                document.documentElement.webkitRequestFullscreen();
+            } else if (document.documentElement.msRequestFullscreen) { /* IE/Edge */
+                document.documentElement.msRequestFullscreen();
+            }
+        }
+
+        // Add click event to the red button to trigger BSOD
+        document.getElementById('redButton').addEventListener('click', showBSOD);
+
+        // Add click event to Rick Roll button to open the video and close the window
+        rickRollButton.addEventListener('click', function () {
+            // Open Rick Astley's video in a new tab
+            window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank');
+
+            // Close the current window
+            window.close();
+        });
+    </script>
+
+</body>
+</html>
